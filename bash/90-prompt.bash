@@ -4,16 +4,13 @@
 
 
 #PS1_chroot='${debian_chroot:+($debian_chroot)}'
-PS1_line1='\[\033[1;33m\]\A : \[\033[0;33m\]\w\[\033[1;33m\] [\s:\#]$(PS1_exitcode $?)'
-PS1_line2='\[\033[1;31m\]\u@\h\$\[\033[0m\] '
+PS1_line1='\[\e[1;3${PS1_COLOR1:-3}m\]\A : \[\e[0;3${PS1_COLOR1:-3}m\]\w\[\e[1;3${PS1_COLOR1:-3}m\] [\s:\#]\[$(PS1_scolor $?)\]<$?>'
+PS1_line2='\[\e[1;3${PS1_COLOR2:-1}m\]\u@\h\$\[\e[0m\] '
 
-PS1_exitcode() {
-	if [ $1 -ne 0 ]; then
-		printf "\e[1;31m<$1>"
-	else
-		echo "<$1>"
-	fi
+PS1_scolor() {
+	[ $1 -eq 0 ] || printf "\e[1;31m"
+	return $1
 }
 
-export -f PS1_exitcode
+export -f PS1_scolor
 export PS1="${PS1_line1}\\n${PS1_line2}"
