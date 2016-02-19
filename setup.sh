@@ -124,6 +124,9 @@ do
 	esac
 done
 
+# Link files called *.symlink
+# ----------------------------------------------------------------------
+
 while read -r src; do
 	dst="$HOME/.$(basename "${src%.*}")"
 	link_file "$src" "$dst"

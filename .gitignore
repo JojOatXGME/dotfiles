@@ -1,0 +1,10 @@
+# Personal configuration
+/dotconf.bash
+
+# Files created by editors
+*~
+.*.swp
+
+# Operating system files
+Thumbs.db
+.DS_Store

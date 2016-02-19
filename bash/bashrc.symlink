@@ -7,20 +7,34 @@
 [[ $- != *i* ]] && return
 
 
-# get path to this repository
-if [ "${BASH_VERSINFO[0]}" -ge 3 ] && type realpath &> /dev/null; then
+# Get path to this repository
+# ----------------------------------------------------------------------
+
+if [ -L "$BASH_SOURCE" ] && type realpath &> /dev/null; then
 	DOTFILES="$(dirname "$(dirname "$(realpath "$BASH_SOURCE")")")"
 else
 	DOTFILES="$HOME/.dotfiles"
-	if ! [ -d "$DOTFILES" ]; then
-		return
-	fi
 fi
 
-# add bin to PATH
-export PATH="$DOTFILES/bin:$PATH"
+[ -d "$DOTFILES" ] || return
 
-# run scripts called *.bash
+# Read $HOME/.dotconf.bash and $DOTFILES/dotconf.bash
+# ----------------------------------------------------------------------
+
+[ -r "$HOME/.dotconf.bash" ]    && . "$HOME/.dotconf.bash"    || true
+[ -r "$DOTFILES/dotconf.bash" ] && . "$DOTFILES/dotconf.bash" || true
+
+# Add bin to PATH
+# ----------------------------------------------------------------------
+
+if [ "$LOGIN_SHELL" ] && [ -d "$DOTFILES/bin" ]; then
+	export PATH="$DOTFILES/bin:$PATH"
+fi
+
+# Run scripts called *.bash
+# ----------------------------------------------------------------------
+
 while read -r file; do
 	. "$file"
-done <<< "$(find -H "$DOTFILES" -maxdepth 2 -name '*.bash' '!' -path '*.git' | sort)"
+done <<< "$(find -H "$DOTFILES" -maxdepth 2 -name '*.bash' -type f \
+			'!' -path '*.git' '!' -path "$DOTFILES/dotconf.bash" | sort)"
