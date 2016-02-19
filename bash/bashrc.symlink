@@ -1,0 +1,26 @@
+# ~/.bashrc
+# ==================
+# executed by bash(1) for non-login shells.
+
+
+# If not running interactively, don't do anything
+[[ $- != *i* ]] && return
+
+
+# get path to this repository
+if [ "${BASH_VERSINFO[0]}" -ge 3 ] && type realpath &> /dev/null; then
+	DOTFILES="$(dirname "$(dirname "$(realpath "$BASH_SOURCE")")")"
+else
+	DOTFILES="$HOME/.dotfiles"
+	if ! [ -d "$DOTFILES" ]; then
+		return
+	fi
+fi
+
+# add bin to PATH
+export PATH="$DOTFILES/bin:$PATH"
+
+# run scripts called *.bash
+while read -r file; do
+	. "$file"
+done <<< "$(find -H "$DOTFILES" -maxdepth 2 -name '*.bash' '!' -path '*.git' | sort)"
