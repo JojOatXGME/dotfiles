@@ -7,6 +7,12 @@
 [[ $- != *i* ]] && return
 
 
+# Set LOGIN_SHELL_FIRST_BASH if it runs first time in this environment
+# ----------------------------------------------------------------------
+
+[ "$MY_BASHRC_DID_RUN" ] || LOGIN_SHELL_FIRST_BASH=true
+export MY_BASHRC_DID_RUN=true
+
 # Get path to this repository
 # ----------------------------------------------------------------------
 
@@ -27,7 +33,7 @@ fi
 # Add bin to PATH
 # ----------------------------------------------------------------------
 
-if [ "$LOGIN_SHELL" ] && [ -d "$DOTFILES/bin" ]; then
+if [ "$LOGIN_SHELL_FIRST_BASH" ] && [ -d "$DOTFILES/bin" ]; then
 	export PATH="$DOTFILES/bin:$PATH"
 fi
 

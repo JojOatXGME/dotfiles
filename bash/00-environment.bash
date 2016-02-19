@@ -4,7 +4,7 @@
 
 
 # Only run for login shell
-[ "$LOGIN_SHELL" ] || return
+[ "$LOGIN_SHELL_FIRST_BASH" ] || return
 
 
 # Add $HOME/bin to PATH
