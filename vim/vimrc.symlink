@@ -44,6 +44,7 @@ autocmd FileType tex set textwidth=72
 autocmd FileType tex setlocal spell spelllang=de_20,en_us
 autocmd FileType markdown set textwidth=72
 autocmd FileType markdown setlocal spell spelllang=de_20,en_us
+autocmd FileType markdown set expandtab
 
 """ custom commands
 command Warp set textwidth=72
