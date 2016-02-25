@@ -17,3 +17,7 @@ alias egrep='egrep --color=auto'
 # Create some other aliases.
 alias vi='vim'
 alias view='vim -R'
+
+# Add clipin and clipout to write from / read to clipboard.
+alias clipin='xclip -i -selection clipboard'
+alias clipout='xclip -o -selection clipboard'
