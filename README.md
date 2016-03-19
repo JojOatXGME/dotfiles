@@ -14,11 +14,13 @@ symlinks in your home directory.
     ./setup.sh
 
 You can use `./setup.sh -f` or `-s` to overwrite or skip existing files.
-Since symlinks are used, you have to run this script again after moving
-the repository.
+If you want to verify the operations first, you can use `-n`. With this
+option the script does not copy / link any file but it prints which
+operations on the filesystem would be executed without this option.
 
 This script will create a symlink of every file and directory named
-`*.symlink` in the repository.
+`*.symlink`. Since symlinks are used, you have to run this script again
+after moving the repository.
 
 ### Bash
 

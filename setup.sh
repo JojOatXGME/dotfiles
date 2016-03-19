@@ -14,6 +14,7 @@ set -o pipefail         # fail if one component in a pipe fails
 
 overwrite_mode="none"
 copy=false
+simulate=false
 
 # Logging functions
 # ----------------------------------------------------------------------
@@ -54,7 +55,31 @@ fail() {
 link_file() {
 	local src="$1" dst="$2"
 
-	if [ -e "$dst" ]; then
+	if [ $simulate == "true" ]; then
+		if [ -e "$dst" ]; then
+			case "$overwrite_mode" in
+				"force")
+					if [ $copy == "true" ]; then
+						info "would copy '$src' to '$dst'"
+					else
+						info "would link '$src' to '$dst'"
+					fi
+					;;
+				"skip")
+					info "would skip '$src'"
+					;;
+				*)
+					fail "File already exists: $dst"
+					;;
+			esac
+		else
+			if [ $copy == "true" ]; then
+				info "would copy '$src' to '$dst'"
+			else
+				info "would link '$src' to '$dst'"
+			fi
+		fi
+	elif [ -e "$dst" ]; then
 		case "$overwrite_mode" in
 			"force")
 				if [ $copy == "true" ]; then
@@ -101,7 +126,7 @@ fi
 # Read command line arguments
 # ----------------------------------------------------------------------
 
-while getopts ':cfs' opt
+while getopts ':cfns' opt
 do
 	case $opt in
 		c)
@@ -109,6 +134,9 @@ do
 			;;
 		f)
 			overwrite_mode="force"
+			;;
+		n)
+			simulate=true
 			;;
 		s)
 			overwrite_mode="skip"
