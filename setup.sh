@@ -152,6 +152,12 @@ do
 	esac
 done
 
+shift $((OPTIND-1))
+if [ $# -ne 0 ]; then
+	fail "Unknown argument: $1"
+	exit 1
+fi
+
 # Link files called *.symlink
 # ----------------------------------------------------------------------
 
