@@ -1,6 +1,5 @@
 #!/bin/bash
 
-DOTFILES="$(dirname "$(realpath -s "$0")")"
 
 # Set bash options (for error handling)
 # ----------------------------------------------------------------------
@@ -8,6 +7,11 @@ DOTFILES="$(dirname "$(realpath -s "$0")")"
 set -o errexit          # like `set -e`, fail if command fails
 set -o nounset          # like `set -u`, fail if variable missing
 set -o pipefail         # fail if one component in a pipe fails
+
+# Get directory where the dotfiles are installed
+# ----------------------------------------------------------------------
+
+DOTFILES="$(dirname "$(realpath -s "$0")")"
 
 # Command line options
 # ----------------------------------------------------------------------
