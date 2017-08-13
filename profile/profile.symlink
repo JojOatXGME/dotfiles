@@ -1,0 +1,37 @@
+# ~/.profile
+# ==================
+# sourced by login shells.
+
+
+# Get path to the Dotfiles repository
+# ----------------------------------------------------------------------
+
+if realpath . > /dev/null 2>&1; then
+	DOTFILES="$(dirname "$(dirname "$(realpath ~/.profile)")")"
+else
+	DOTFILES="$HOME/.dotfiles"
+fi
+
+if [ -f "$DOTFILES/profile/profile.symlink" ]; then
+	export DOTFILES
+else
+	unset DOTFILES
+fi
+
+# Add bin to PATH
+# ----------------------------------------------------------------------
+
+if [ -n "$DOTFILES" ]; then
+    PATH="$DOTFILES/bin:$PATH"
+    export PATH
+fi
+
+# Load profiles from $DOTFILES/profile/
+# ----------------------------------------------------------------------
+
+if [ -n "$DOTFILES" ]; then
+	for profile in "$DOTFILES"/profile/*.sh; do
+		. "$profile"
+	done
+	unset profile
+fi

@@ -3,4 +3,5 @@
 # executed by bash(1) for login shells.
 
 LOGIN_SHELL=true
-[[ -f ~/.bashrc ]] && . ~/.bashrc
+[[ -f ~/.profile ]] && . ~/.profile
+[[ -f ~/.bashrc ]]  && . ~/.bashrc

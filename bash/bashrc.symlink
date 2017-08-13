@@ -4,8 +4,14 @@
 
 
 # If not running interactively, don't do anything
+# ----------------------------------------------------------------------
+
 [[ $- != *i* ]] && return
 
+# If the path to the Dotfiles repository is unknown, don't do anything
+# ----------------------------------------------------------------------
+
+[[ -d "$DOTFILES" ]] || return
 
 # Set LOGIN_SHELL_FIRST_BASH if it runs first time in this environment
 # ----------------------------------------------------------------------
@@ -13,29 +19,11 @@
 [ "$MY_BASHRC_DID_RUN" ] || LOGIN_SHELL_FIRST_BASH=true
 export MY_BASHRC_DID_RUN=true
 
-# Get path to this repository
-# ----------------------------------------------------------------------
-
-if [ -L "$BASH_SOURCE" ] && type realpath &> /dev/null; then
-	DOTFILES="$(dirname "$(dirname "$(realpath "$BASH_SOURCE")")")"
-else
-	DOTFILES="$HOME/.dotfiles"
-fi
-
-[ -d "$DOTFILES" ] || return
-
 # Read $HOME/.dotconf.bash and $DOTFILES/dotconf.bash
 # ----------------------------------------------------------------------
 
 [ -r "$HOME/.dotconf.bash" ]    && . "$HOME/.dotconf.bash"    || true
 [ -r "$DOTFILES/dotconf.bash" ] && . "$DOTFILES/dotconf.bash" || true
-
-# Add bin to PATH
-# ----------------------------------------------------------------------
-
-if [ "$LOGIN_SHELL_FIRST_BASH" ] && [ -d "$DOTFILES/bin" ]; then
-	export PATH="$DOTFILES/bin:$PATH"
-fi
 
 # Run scripts called *.bash
 # ----------------------------------------------------------------------
