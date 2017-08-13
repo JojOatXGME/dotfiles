@@ -30,12 +30,3 @@ fi
 if [ -f "/usr/share/doc/pkgfile/command-not-found.bash" ]; then
 	. "/usr/share/doc/pkgfile/command-not-found.bash"
 fi
-
-# Add gem's stuff to path (ruby)
-# ----------------------------------------------------------------------
-
-if type ruby > /dev/null 2>&1 \
-	&& [ -d "$(ruby -rubygems -e "puts Gem.user_dir")/bin" ]
-then
-	export PATH="$PATH:$(ruby -rubygems -e "puts Gem.user_dir")/bin"
-fi
