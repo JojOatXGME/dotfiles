@@ -1,7 +1,5 @@
-""" enable file type detection (sets option 'filetype' used for event FileType)
-filetype on
-filetype indent on
-filetype plugin on
+""" enable file type detection
+filetype plugin indent on
 """ enable syntax highlighting
 syntax on
 """ enable line numbers
@@ -26,25 +24,21 @@ nmap <F9> :!cd %:p:h && pdflatex %:p<cr>
 nmap <leader>m :tabn<cr>
 nmap <leader>n :tabp<cr>
 
-""" indendate whole blocks with < and >
+""" default indentation
+set tabstop=4       " number of spaces shown per tab in file
+set softtabstop=4   " number of spaces inserted per tab while editing
+set shiftwidth=4    " number of spaces changed when using `<<` or `>>`
+set expandtab       " replace tabs with spaces while editing
+
+""" don't expand tabs when there are already tabs in the file
+autocmd BufEnter,FileType *
+    \   if match(getline(1, '$'), '\t') != -1 |
+    \       setl noexpandtab |
+    \   endif
+
+""" indent whole blocks with < and >
 vmap < <gv
 vmap > >gv
-
-""" indendation
-set ai
-set si
-
-set shiftwidth=4
-set tabstop=4
-set softtabstop=4
-"set expandtab
-
-""" file specific things
-autocmd FileType tex set textwidth=72
-autocmd FileType tex setlocal spell spelllang=de_20,en_us
-autocmd FileType markdown set textwidth=72
-autocmd FileType markdown setlocal spell spelllang=de_20,en_us
-autocmd FileType markdown set expandtab
 
 """ custom commands
 command Warp set textwidth=72
