@@ -15,10 +15,13 @@ if [ -n "$node_actual_prefix" ] &&
    [ "$node_actual_prefix" != "$node_default_prefix" ]
 then
 	PATH="$PATH:$node_actual_prefix/bin:$node_default_prefix/bin"
-	export PATH
+	NODE_PATH="$NODE_PATH:$node_actual_prefix/lib/node_modules"
+	NODE_PATH="$NODE_PATH:$node_default_prefix/lib/node_modules"
+	export PATH NODE_PATH
 else
 	PATH="$PATH:$node_default_prefix/bin"
-	export PATH
+	NODE_PATH="$NODE_PATH:$node_default_prefix/lib/node_modules"
+	export PATH NODE_PATH
 fi
 
 unset node_actual_prefix
