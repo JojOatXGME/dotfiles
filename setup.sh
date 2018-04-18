@@ -8,30 +8,12 @@ set -o errexit          # like `set -e`, fail if command fails
 set -o nounset          # like `set -u`, fail if variable missing
 set -o pipefail         # fail if one component in a pipe fails
 
-# Get directory where the dotfiles are installed
-# ----------------------------------------------------------------------
-
-DOTFILES="$(dirname "$(realpath -s "$0")")"
-
-# Command line options
-# ----------------------------------------------------------------------
-
-overwrite_mode="none"
-copy=false
-simulate=false
-
 # Logging functions
 # ----------------------------------------------------------------------
 
-tmpmsg() {
-	if [ -t 1 ]; then
-		printf "\r  [ \033[00;34m..\033[0m ] $1"
-	fi
-}
-
 info() {
 	if [ -t 1 ]; then
-		printf "\r  [ \033[00;34m..\033[0m ] $1\n"
+		printf "  [ \033[00;34m..\033[0m ] $1\n"
 	else
 		echo "  [ .. ] $1\n"
 	fi
@@ -39,7 +21,7 @@ info() {
 
 success() {
 	if [ -t 1 ]; then
-		printf "\r\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
+		printf "\033[2K  [ \033[00;32mOK\033[0m ] $1\n"
 	else
 		echo "  [ OK ] $1\n"
 	fi
@@ -47,11 +29,27 @@ success() {
 
 fail() {
 	if [ -t 2 ]; then
-		printf "\r\033[2K  [\033[0;31mFAIL\033[0m] $1\n" >&2
+		printf "\033[2K  [\033[0;31mFAIL\033[0m] $1\n" >&2
 	else
 		echo "  [FAIL] $1\n" >&2
 	fi
 }
+
+# Get directory where the dotfiles are installed
+# ----------------------------------------------------------------------
+
+DOTFILES="$(dirname "$(realpath -s "$0")")"
+if ! [ -d "$DOTFILES" ]; then
+	fail 'Could not resolve path to Dotfiles.'
+	exit 1
+fi
+
+# Command line options
+# ----------------------------------------------------------------------
+
+overwrite_mode="none"
+copy=false
+simulate=false
 
 # Other functions
 # ----------------------------------------------------------------------
@@ -117,7 +115,6 @@ link_file() {
 		fi
 	fi
 }
-
 
 # Check dependencies
 # ----------------------------------------------------------------------
