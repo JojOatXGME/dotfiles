@@ -2,6 +2,6 @@
 # ====================
 # Add local executables of cargo/rust to PATH
 
-if [ -d "" ]; then
+if [ -d "$HOME/.cargo/bin" ]; then
 	export PATH="$PATH:$HOME/.cargo/bin"
 fi
